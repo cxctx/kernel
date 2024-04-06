@@ -1,4 +1,7 @@
 sudo chown -hR anon /home/anon/
+sudo mv /home/anon/fluxbox /home/anon/.fluxbox/
+sudo mv /home/anon/scripts /home/anon/.scripts/
+sudo mv /home/browser/mozilla /home/browser/.mozilla/
 pass=$(openssl rand -base64 14514 | sudo -u tor -g tor tor --hash-password -)
 torpass="HashedControlPassword ${pass}"
 echo "Log notice syslog
