@@ -1,0 +1,122 @@
+#!bin/bash
+clear
+show_menu() {
+echo "============================="
+echo "=           I2P 	         ="
+echo "============================="
+echo " 1) Create 512 Tunnels"
+echo " 2) Proxy Rotate"
+echo ""
+echo " on) Turn ON"
+echo " off) Turn OFF"
+echo ""
+echo " q) exit"
+echo "=============================="
+read -p "Input: " choice
+}
+
+turnon() {
+	clear
+	sudo -u i2p -g i2p /home/i2p/runplain.sh
+}
+
+turnoff() {
+	clear
+	sudo -u i2p -g i2p /home/i2p/i2prouter stop
+}
+
+tunnels() {
+	clear
+	sudo shred -u /home/i2p/.i2p/i2ptunnel.config.d/*
+	sudo shred -u /home/i2p/i2ptunnel.config.d/*
+	sudo rm -r /home/i2p/.i2p/i2ptunnel.config.d/*
+	sudo rm -r /home/i2p/i2ptunnel.config.d/*
+	sudo bash /home/anon/.scripts/i2p/tunnelconf-i2p
+	echo "Succesfully Created 512 Tunnels.."
+}
+
+proxyrotate() {
+ipinterface=""
+read -p "IP Of I2P Tunnels interface: " ipinterface
+  for i in {0..9999999999}; do
+	clear
+	nftset() {
+		echo "table ip6 nat {" > /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        chain PREROUTING {" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                type nat hook prerouting priority dstnat; policy accept;" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        }" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        chain INPUT {" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                type nat hook input priority srcnat; policy accept;" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        }" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        chain OUTPUT {" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                type nat hook output priority dstnat; policy accept;" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        }" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        chain POSTROUTING {" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                type nat hook postrouting priority srcnat; policy accept;" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        }" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        chain custom-prerouting {" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                type nat hook prerouting priority dstnat; policy accept;" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                tcp dport 4000-4512 redirect to :${i}" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        }" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        chain custom-output {" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                type nat hook output priority dstnat; policy accept;" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                tcp dport 4000-4512 redirect to :${i}" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "                tcp dport 5050 counter packets 0 bytes 0 dnat to ${ipinterface}:${i}" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "        }" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "}" >> /home/anon/.scripts/i2p/proxy-rotate.nft
+	}
+
+	for i in {4000..4170}; do
+		sudo nft flush chain ip6 nat custom-prerouting
+		sudo nft flush chain ip6 nat custom-output
+		nftset
+		nft -f /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "Port Used: ${i}"
+		sleep 21
+	done
+	for i in {4171..4240}; do
+		sudo nft flush chain ip6 nat custom-prerouting
+		sudo nft flush chain ip6 nat custom-output
+		nftset
+		nft -f /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "Port Used: ${i}"
+		sleep 21
+	done
+	for i in {4241..4411}; do
+		sudo nft flush chain ip6 nat custom-prerouting
+		sudo nft flush chain ip6 nat custom-output
+		nftset
+		nft -f /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "Port Used: ${i}"
+		sleep 21
+	done
+	for i in {4412..4512}; do
+		sudo nft flush chain ip6 nat custom-prerouting
+		sudo nft flush chain ip6 nat custom-output
+		nftset
+		nft -f /home/anon/.scripts/i2p/proxy-rotate.nft
+		echo "Port Used: ${i}"
+		sleep 21
+	done
+  done
+echo ""
+}
+
+while true; do
+    show_menu
+    case $choice in
+        1) tunnels ;;
+        2) proxyrotate ;;
+	on) turnon ;;
+	off) turnoff ;;
+        q) clear
+           break ;;
+        *) echo "Invalid option" ;;
+    esac
+done

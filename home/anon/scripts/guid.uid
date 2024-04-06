@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Prompt the user for a PID
+echo "Enter the PID:"
+read pid
+
+# Extract the UID from /proc/$PID/status
+uid=$(grep Uid /proc/$pid/status | awk '{print $2}')
+
+# Extract the username from /etc/passwd using the UID
+username=$(getent passwd $uid | cut -d: -f1)
+
+# Extract the GID from /etc/passwd using the username
+gid=$(getent passwd $username | cut -d: -f4)
+
+# Display the UID and GID
+echo "UID: $uid"
+echo "GID: $gid"

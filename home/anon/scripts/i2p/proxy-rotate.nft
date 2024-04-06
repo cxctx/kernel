@@ -1,0 +1,29 @@
+table ip6 nat {
+        chain PREROUTING {
+                type nat hook prerouting priority dstnat; policy accept;
+        }
+
+        chain INPUT {
+                type nat hook input priority srcnat; policy accept;
+        }
+
+        chain OUTPUT {
+                type nat hook output priority dstnat; policy accept;
+        }
+
+        chain POSTROUTING {
+                type nat hook postrouting priority srcnat; policy accept;
+        }
+
+        chain custom-prerouting {
+                type nat hook prerouting priority dstnat; policy accept;
+                tcp dport 4000-4512 redirect to :4031
+
+        }
+
+        chain custom-output {
+                type nat hook output priority dstnat; policy accept;
+                tcp dport 4000-4512 redirect to :4031
+                tcp dport 53000 counter packets 0 bytes 0 dnat to [214:fd1d:2d38:cf14:c1b0:139c:2a3:b3ff]:4031
+        }
+}

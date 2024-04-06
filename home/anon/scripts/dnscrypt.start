@@ -1,0 +1,2 @@
+#!bin/sh
+sudo -u dnscrypt_proxy dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml

@@ -1,0 +1,28 @@
+#!bin/bash
+# Run this in the folder that have the profiles of browser
+cleanb() {
+find /home/browser/.mozilla/firefox/*/ -depth -name "cache2" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -type f -name "storage-sync-v2.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "storage-sync-v2.sqlite-shm" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "storage-sync-v2.sqlite-wal" -delete
+find /home/browser/.mozilla/firefox/*/ -depth -name "datareporting" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -depth -name "safebrowsing" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -depth -name "security_state" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -depth -name "sessionstore-backups" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -depth -name "startupCache" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -depth -name "storage" -type d -exec rm -r {} \;
+find /home/browser/.mozilla/firefox/*/ -type f -name "addonStartup.json.lz4" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "cert9.db" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "content-prefs.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "cookies.sqlite-wal" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "favicons.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "formhistory.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "key4.db" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "permissions.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "places.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "places.sqlite-wal" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "protections.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "storage.sqlite" -delete
+find /home/browser/.mozilla/firefox/*/ -type f -name "webappsstore.sqlite" -delete
+}
+cleanb

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Specify the directory containing the files to rename
+directory_path="/var/cache/pacman/pkg/"
+
+# Find all files in the directory that contain a colon in their name
+find "$directory_path" -type f -name "*:*" | while read -r file; do
+    # Extract the base name of the file (without the directory path)
+    base_name=$(basename "$file")
+    # Replace colons with underscores in the base name
+    new_name="${base_name//:/}"
+    # Construct the new file path by replacing the base name in the original file path
+    new_path="${file%/*}/$new_name"
+    # Rename the file
+    mv "$file" "$new_path"
+    echo "Renamed $file to $new_path"
+done

@@ -1,0 +1,6 @@
+#!bin/sh
+
+# fallocate -l 10G /mydisk.img
+# mkfs.ext4 /mydisk.img
+# mkdir /tmp/mydisk
+# mount -o loop mydisk.img /tmp/mydisk

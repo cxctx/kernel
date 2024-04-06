@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Prompt for user input
+echo "Enter the username:"
+read username
+sudo useradd -m -s /usr/sbin/nologin "$username"
+echo "$username ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+echo "xhost SI:localuser:$username" | sudo tee -a /etc/bash.bashrc
+echo "User $username created successfully."

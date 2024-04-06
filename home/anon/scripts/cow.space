@@ -1,0 +1,3 @@
+read -p "Space in Gigabytes: " cow
+sudo mount -o remount,size=${cow}G /run/archiso/cowspace
+

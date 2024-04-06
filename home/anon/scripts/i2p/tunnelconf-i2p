@@ -1,0 +1,240 @@
+#!bin/bash
+clear
+outproxy=""
+show_menu() {
+echo "======================================================================"
+echo "		Outproxy List		 "
+echo " Server: acetone"
+echo " 1) proxy4uwdijqxac2bvdx4fuhem6njmiwukuk2gelejv2nzxka2xq.b32.i2p"
+echo " 2) outproxy.acetone.i2p"
+echo ""
+echo " Server: StormCloud"
+echo " 3) exit.stormcloud.i2p"
+echo ""
+echo " Server: PuroKishi"
+echo " 4) purokishi.i2p"
+echo ""
+echo " Server: Personal"
+echo " 5) Your Custom outproxy"
+echo ""
+echo " q) Exit"
+echo "======================================================================"
+read -p "Input: " choice
+}
+
+tunnel() {
+read -p "IP to bind interface: " ipinterface
+
+for i in {4001..4170}; do
+	echo "configFile=/home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+interface=${ipinterface}
+listenPort=${i}
+name=${i}-SOCKS-IPV6
+option.http://reg.i2p/jump/=
+option.http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2cp.closeIdleTime=1800000
+option.i2cp.closeOnIdle=false
+option.i2cp.delayOpen=false
+option.i2cp.destination.sigType=EdDSA_SHA512_Ed25519
+option.i2cp.leaseSetEncType=4,0
+option.i2cp.newDestOnResume=false
+option.i2cp.reduceIdleTime=1200000
+option.i2cp.reduceOnIdle=false
+option.i2cp.reduceQuantity=1
+option.i2p.streaming.connectDelay=0
+option.i2ptunnel.httpclient.SSLOutproxies=${outproxy}
+option.i2ptunnel.httpclient.allowInternalSSL=false
+option.i2ptunnel.httpclient.sendAccept=false
+option.i2ptunnel.httpclient.sendReferer=false
+option.i2ptunnel.httpclient.sendUserAgent=false
+option.i2ptunnel.sockstunnel.SSLOutproxies=${outproxy}
+option.i2ptunnel.sockstunnel.allowInternalSSL=false
+option.i2ptunnel.sockstunnel.jumpServers=http://notbob.i2p/cgi-bin/jump.cgi?q=,http://reg.i2p/jump/,http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2ptunnel.sockstunnel.sendAccept=false
+option.i2ptunnel.sockstunnel.sendReferer=false
+option.i2ptunnel.sockstunnel.sendUserAgent=false
+option.i2ptunnel.useLocalOutproxy=true
+option.inbound.length=3
+option.inbound.nickname=${i}-SOCKS-IPV6
+option.inbound.quantity=8
+option.outbound.length=8
+option.outbound.nickname=${i}-SOCKS-IPV6
+option.outbound.quantity=8
+option.outproxyAuth=false
+option.outproxyType=connect
+option.persistentClientKey=false
+option.sslManuallySet=false
+option.useSSL=false
+privKeyFile=i2ptunnel1-privKeys.dat
+proxyList=${outproxy}
+sharedClient=false
+startOnLoad=false
+type=sockstunnel" > /home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+
+done
+
+for i in {4171..4240}; do
+	echo "configFile=/home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+interface=${ipinterface}
+listenPort=${i}
+name=${i}-SOCKS-IPV6
+option.http://reg.i2p/jump/=
+option.http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2cp.closeIdleTime=1800000
+option.i2cp.closeOnIdle=false
+option.i2cp.delayOpen=false
+option.i2cp.destination.sigType=EdDSA_SHA512_Ed25519
+option.i2cp.leaseSetEncType=4,0
+option.i2cp.newDestOnResume=false
+option.i2cp.reduceIdleTime=1200000
+option.i2cp.reduceOnIdle=false
+option.i2cp.reduceQuantity=1
+option.i2p.streaming.connectDelay=0
+option.i2ptunnel.httpclient.SSLOutproxies=${outproxy}
+option.i2ptunnel.httpclient.allowInternalSSL=false
+option.i2ptunnel.httpclient.sendAccept=false
+option.i2ptunnel.httpclient.sendReferer=false
+option.i2ptunnel.httpclient.sendUserAgent=false
+option.i2ptunnel.sockstunnel.SSLOutproxies=${outproxy}
+option.i2ptunnel.sockstunnel.allowInternalSSL=false
+option.i2ptunnel.sockstunnel.jumpServers=http://notbob.i2p/cgi-bin/jump.cgi?q=,http://reg.i2p/jump/,http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2ptunnel.sockstunnel.sendAccept=false
+option.i2ptunnel.sockstunnel.sendReferer=false
+option.i2ptunnel.sockstunnel.sendUserAgent=false
+option.i2ptunnel.useLocalOutproxy=true
+option.inbound.length=3
+option.inbound.nickname=${i}-SOCKS-IPV6
+option.inbound.quantity=8
+option.outbound.length=8
+option.outbound.nickname=${i}-SOCKS-IPV6
+option.outbound.quantity=8
+option.outproxyAuth=false
+option.outproxyType=connect
+option.persistentClientKey=false
+option.sslManuallySet=false
+option.useSSL=false
+privKeyFile=i2ptunnel1-privKeys.dat
+proxyList=${outproxy}
+sharedClient=false
+startOnLoad=false
+type=sockstunnel" > /home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+
+
+done
+
+for i in {4241..4411}; do
+	echo "configFile=/home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+interface=${ipinterface}
+listenPort=${i}
+name=${i}-SOCKS-IPV6
+option.http://reg.i2p/jump/=
+option.http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2cp.closeIdleTime=1800000
+option.i2cp.closeOnIdle=false
+option.i2cp.delayOpen=false
+option.i2cp.destination.sigType=EdDSA_SHA512_Ed25519
+option.i2cp.leaseSetEncType=4,0
+option.i2cp.newDestOnResume=false
+option.i2cp.reduceIdleTime=1200000
+option.i2cp.reduceOnIdle=false
+option.i2cp.reduceQuantity=1
+option.i2p.streaming.connectDelay=0
+option.i2ptunnel.httpclient.SSLOutproxies=${outproxy}
+option.i2ptunnel.httpclient.allowInternalSSL=false
+option.i2ptunnel.httpclient.sendAccept=false
+option.i2ptunnel.httpclient.sendReferer=false
+option.i2ptunnel.httpclient.sendUserAgent=false
+option.i2ptunnel.sockstunnel.SSLOutproxies=${outproxy}
+option.i2ptunnel.sockstunnel.allowInternalSSL=false
+option.i2ptunnel.sockstunnel.jumpServers=http://notbob.i2p/cgi-bin/jump.cgi?q=,http://reg.i2p/jump/,http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2ptunnel.sockstunnel.sendAccept=false
+option.i2ptunnel.sockstunnel.sendReferer=false
+option.i2ptunnel.sockstunnel.sendUserAgent=false
+option.i2ptunnel.useLocalOutproxy=true
+option.inbound.length=3
+option.inbound.nickname=${i}-SOCKS-IPV6
+option.inbound.quantity=8
+option.outbound.length=8
+option.outbound.nickname=${i}-SOCKS-IPV6
+option.outbound.quantity=8
+option.outproxyAuth=false
+option.outproxyType=connect
+option.persistentClientKey=false
+option.sslManuallySet=false
+option.useSSL=false
+privKeyFile=i2ptunnel1-privKeys.dat
+proxyList=${outproxy}
+sharedClient=false
+startOnLoad=false
+type=sockstunnel" > /home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+
+
+done
+
+for i in {4412..4500}; do
+	echo "configFile=/home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+interface=${ipinterface}
+listenPort=${i}
+name=${i}-SOCKS-IPV6
+option.http://reg.i2p/jump/=
+option.http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2cp.closeIdleTime=1800000
+option.i2cp.closeOnIdle=false
+option.i2cp.delayOpen=false
+option.i2cp.destination.sigType=EdDSA_SHA512_Ed25519
+option.i2cp.leaseSetEncType=4,0
+option.i2cp.newDestOnResume=false
+option.i2cp.reduceIdleTime=1200000
+option.i2cp.reduceOnIdle=false
+option.i2cp.reduceQuantity=1
+option.i2p.streaming.connectDelay=0
+option.i2ptunnel.httpclient.SSLOutproxies=${outproxy}
+option.i2ptunnel.httpclient.allowInternalSSL=false
+option.i2ptunnel.httpclient.sendAccept=false
+option.i2ptunnel.httpclient.sendReferer=false
+option.i2ptunnel.httpclient.sendUserAgent=false
+option.i2ptunnel.sockstunnel.SSLOutproxies=${outproxy}
+option.i2ptunnel.sockstunnel.allowInternalSSL=false
+option.i2ptunnel.sockstunnel.jumpServers=http://notbob.i2p/cgi-bin/jump.cgi?q=,http://reg.i2p/jump/,http://stats.i2p/cgi-bin/jump.cgi?a=
+option.i2ptunnel.sockstunnel.sendAccept=false
+option.i2ptunnel.sockstunnel.sendReferer=false
+option.i2ptunnel.sockstunnel.sendUserAgent=false
+option.i2ptunnel.useLocalOutproxy=true
+option.inbound.length=3
+option.inbound.nickname=${i}-SOCKS-IPV6
+option.inbound.quantity=8
+option.outbound.length=8
+option.outbound.nickname=${i}-SOCKS-IPV6
+option.outbound.quantity=8
+option.outproxyAuth=false
+option.outproxyType=connect
+option.persistentClientKey=false
+option.sslManuallySet=false
+option.useSSL=false
+privKeyFile=i2ptunnel1-privKeys.dat
+proxyList=${outproxy}
+sharedClient=false
+startOnLoad=false
+type=sockstunnel" > /home/i2p/.i2p/i2ptunnel.config.d/${i}-SOCKS-IPV6.tunnel.config
+
+done
+}
+
+while true; do
+	show_menu
+	case $choice in
+		1) outproxy="proxy4uwdijqxac2bvdx4fuhem6njmiwukuk2gelejv2nzxka2xq.b32.i2p"
+        	   tunnel ;;
+		2) outproxy="outproxy.acetone.i2p"
+	           tunnel ;;
+		3) outproxy="exit.stormcloud.i2p"
+	           tunnel ;;
+		4) outproxy="purokishi.i2p"
+	           tunnel ;;
+		5) read -p "Custom address: " outproxy
+	           tunnel ;;
+		q) clear
+		   break ;;
+		*) echo "Invalid Option" ;;
+	esac
+done

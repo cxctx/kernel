@@ -1,0 +1,6 @@
+#!bin/bash
+
+sudo virtqemud -d
+sudo virtnetworkd -d
+sudo virtstoraged -d
+sudo virtlogd -d

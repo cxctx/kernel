@@ -1,0 +1,2 @@
+#!bin/sh
+sudo runuser -u dnsmasq -i 127.0.0.1 --no-daemon --log-queries

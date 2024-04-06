@@ -1,0 +1,189 @@
+#!/bin/sh
+# Function to display the menu
+show_menu() {
+    echo "User and Group Management Menu"
+    echo "-----------------------------"
+    echo "a. Add App User"
+    echo "b. Add Browser User"
+    echo "c. Lock Login"
+    echo "d. Lock All Users"
+    echo ""
+    echo "1. List Users"
+    echo "2. Create New User"
+    echo "3. Add Sudo to a User"
+    echo ""
+    echo "4. Set USER No Login"
+    echo "5. Set USER Login"
+    echo ""
+    echo "6. Manage User Permissions"
+    echo "7. Manage User Groups"
+    echo "8. List Groups"
+    echo "9. Create Group"
+    echo ""
+    echo "10. Delete User"
+    echo "11. Delete Group"
+    echo "12. Add User to Group"
+    echo ""
+    echo "13. Exit"
+}
+
+app_user() {
+	clear
+	st -e ~/.scripts/app.user
+}
+
+browser_user() {
+	clear
+	st -e ~/.scripts/app.user
+	read -p "Name of User?  " username
+	sudo su && sudo xhost +SI:localuser:$username && exit
+}
+
+locklogin() {
+	clear
+	read -p "Lock Login from user:  " username
+	sudo passwd -l $username
+}
+
+lockall() {
+	clear
+	cut -d: -f1 /etc/passwd | while IFS= read -r user; do
+		sudo passwd -l "$user"
+	done
+}
+
+
+# Function to list users
+list_users() {
+    clear
+    echo "Listing users..."
+    cut -d ':' -f1,3,4 /etc/passwd
+}
+
+# Function to create a new user
+create_user() {
+    clear
+    read -p "Enter username: " username
+    read -p "Enter password: " password
+    sudo useradd -m -p $(openssl passwd -1 $password) $username
+    sudo usermod -s /usr/sbin/zsh $username
+    echo "User created successfully."
+}
+
+# Function to add sudo to a user
+add_sudo() {
+    clear
+    read -p "Enter username: " username
+    sudo usermod -aG wheel $username
+    echo "$username ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
+    echo "Sudo added to user."
+}
+
+# Function to add a user to a group
+add_user_to_group() {
+    clear
+    read -p "Enter username: " username
+    read -p "Enter group name: " groupname
+    sudo usermod -a -G $groupname $username
+    echo "User added to group successfully."
+}
+
+# Function to set a user to nologin
+set_user_to_nologin() {
+    clear
+    read -p "Enter username: " username
+    sudo usermod -s /usr/sbin/nologin $username
+    echo "User $username has been set to nologin."
+}
+
+# Function to revert a user to their original login shell
+revert_user_to_login() {
+    clear
+    read -p "Enter username: " username
+    # Assuming the default shell is /bin/bash, change this if your system uses a different default shell
+    sudo usermod -s /bin/zsh $username
+    echo "User $username has been reverted to their original login shell."
+}
+
+#user permissions
+manage_permissions() {
+    clear
+    echo "Managing user permissions..."
+    read -p "Enter username: " username
+    read -p "Enter path to set permissions on: " path
+    read -p "Enter permissions (e.g., rwx): " permissions
+
+    # Set ACL for the user on the specified path
+    setfacl -m u:$username:$permissions $path
+    echo "Permissions set successfully for user $username on $path."
+}
+
+# Function to manage user groups
+manage_user_groups() {
+    clear
+    echo "Managing user groups..."
+    read -p "Enter group name: " groupname
+    read -p "Enter path to set permissions on: " path
+    read -p "Enter permissions (e.g., rwx): " permissions
+
+    # Set ACL for the group on the specified path
+    setfacl -m g:$groupname:$permissions $path
+    echo "Permissions set successfully for group $groupname on $path."
+}
+
+# Function to list groups
+list_groups() {
+    clear
+    echo "Listing groups..."
+    cut -d: -f1 /etc/group
+}
+
+# Function to create a group
+create_group() {
+    clear
+    read -p "Enter group name: " groupname
+    sudo groupadd $groupname
+    echo "Group created successfully."
+}
+
+# Function to delete a user
+delete_user() {
+    clear
+    read -p "Enter username: " username
+    sudo userdel -r $username
+    echo "User deleted successfully."
+}
+
+# Function to delete a group
+delete_group() {
+    clear
+    read -p "Enter group name: " groupname
+    sudo groupdel $groupname
+    echo "Group deleted successfully."
+}
+
+# Main loop
+while true; do
+    show_menu
+    read -p "Enter your choice: " choice
+    case $choice in
+        a) app_user ;;
+        b) browser_user ;;
+        c) locklogin ;;
+        d) lockall ;;
+        1) list_users ;;
+        2) create_user ;;
+        3) add_sudo ;;
+	4) set_user_to_nologin ;;
+	5) revert_user_to_login ;;
+        6) manage_permissions ;;
+        7) manage_user_groups ;;
+        8) list_groups ;;
+        9) create_group ;;
+        10) delete_user ;;
+        11) delete_group ;;
+        12) add_user_to_group ;;
+        13) break ;;
+        *) echo "Invalid choice. Please try again." ;;
+    esac
+done

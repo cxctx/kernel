@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Function to extract subpaths from a URL
+extract_subpaths() {
+    curl -s "$1" | grep -oE 'href="[^"]+"' | cut -d'"' -f2 | grep '^/' | grep -v '\.\w\+$'
+}
+
+# Function to ping a URL and check its availability
+ping_url() {
+    echo "Pinging: $1"
+    if ping -c3 "$1" > /dev/null 2>&1; then
+        echo "---$1 SUCCESS---"
+    else
+        echo "---$1 ERROR---"
+    fi
+}
+
+# Declare an associative array with sites
+declare -A sites=(
+ ["site1"]="https://startpage.com"
+ ["site2"]="https://ifconfig.net"
+ ["site3"]="https://github.com"
+ ["site4"]="https://stackoverflow.com"
+ ["site5"]="https://medium.com"
+ ["site6"]="https://reddit.com"
+ ["site7"]="https://wikipedia.org"
+ ["site8"]="https://amazon.com"
+ ["site9"]="https://ebay.com"
+ ["site10"]="https://netflix.com"
+ ["site11"]="https://twitter.com"
+ ["site12"]="https://twitter.com/home"
+ ["site13"]="https://twitter.com/"
+ ["site14"]="https://twitter.com/"
+ ["site14"]="https://twitter.com/"
+ ["site15"]="https://wikipedia.com"
+ ["site16"]="https://github.com/"
+ ["site17"]="https://youtube.com/watch?v=${random_url1}"
+ ["site18"]="https://youtube.com/watch?v=${random_url2}"
+ ["site19"]="https://music.youtube.com/watch?v=${random_url1}"
+ ["site20"]="https://music.youtube.com/watch?v=${random_url2}"
+)
+
+# Infinite loop to fetch each site in the associative array, extract subpaths, and ping them
+while true; do
+ for site in "${!sites[@]}"; do
+	# Function Generate Random String
+	characters="QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789_-"
+	length1="40"
+	length2="10"
+	random_url1=""
+	random_url2=""
+	for (( i=0; i<${length1}; i++ )); do
+		random_url1="${random_url1}${characters:RANDOM%${#characters}:1}"
+	done
+	for (( i=0; i<${length2}; i++ )); do
+		random_url2="${random_url2}${characters:RANDOM%${#characters}:1}"
+	done
+	echo "Fetching: ${sites[$site]}"
+	curl -s "${sites[$site]}" > /dev/null
+	#    sleep 1
+	#    echo "Extracting subpaths from: ${sites[$site]}"
+	#    subpaths=$(extract_subpaths "${sites[$site]}")
+	#    for subpath in $subpaths; do
+	#        full_url="${sites[$site]}$subpath"
+	#        echo "$full_url"
+	#        ping_url "$full_url"
+	#    done
+	done
+done
+1

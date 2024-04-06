@@ -1,0 +1,22 @@
+#!bin/sh
+sudo rm -r /var/run/runit/supervise.agetty-tty2
+sudo rm -r /var/run/runit/supervise.agetty-tty3
+sudo rm -r /var/run/runit/supervise.agetty-tty4
+sudo rm -r /var/run/runit/supervise.agetty-tty5
+sudo rm -r /var/run/runit/supervise.agetty-tty6
+sudo rm -r /var/run/runit/supervise.udevd
+sudo rm -r /var/run/runit/supervise.udevd-log
+
+sudo rm -r /etc/sv/agetty-tty2
+sudo rm -r /etc/sv/agetty-tty3
+sudo rm -r /etc/sv/agetty-tty4
+sudo rm -r /etc/sv/agetty-tty5
+sudo rm -r /etc/sv/agetty-tty6
+
+sudo rm -r /etc/runit/runsvdir/current/agetty-tty2
+sudo rm -r /etc/runit/runsvdir/current/agetty-tty3
+sudo rm -r /etc/runit/runsvdir/current/agetty-tty4
+sudo rm -r /etc/runit/runsvdir/current/agetty-tty5
+sudo rm -r /etc/runit/runsvdir/current/agetty-tty6
+
+sudo rm -r /etc/runit/runsvdir/current/udevd

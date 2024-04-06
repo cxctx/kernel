@@ -1,0 +1,62 @@
+#!/bin/bash
+# Function to display the menu
+show_menu() {
+    echo "Firewall Interface Management"
+    echo "----------------------------"
+    echo "1. Firewall Anon"
+    echo "2. Firewalled YGG"
+    echo ""
+    echo "o. OFF Firewall"
+    echo "a. Add General Rule"
+    echo "l. List Rules"
+    echo ""
+    echo "dns). Config to Run DNSMASQ+DNSCRYPT"
+    echo "q. Exit"
+    echo -n "Enter your choice: "
+    read choice
+}
+
+firewall() {
+	clear
+	sudo nft flush ruleset
+	sudo nft -f /home/$USER/.scripts/.firewall/firewall-anon
+	clear
+}
+
+firewalled() {
+	clear
+	sudo nft flush ruleset
+	sudo nft -f /home/$USER/.scripts/.firewall/firewalled-anon-ygg
+	clear
+}
+
+
+off_firewall() {
+	clear
+	sudo nft flush ruleset
+	clear
+}
+
+dns() {
+	clear
+	sudo setcap cap_net_bind_service=+pe /usr/sbin/dnscrypt-proxy
+	sudo setcap cap_net_bind_service=+pe /usr/sbin/dnsmasq
+	sudo nft flush ruleset
+	sudo nft -f /home/$USER/.scripts/.firewall/firewall-dns
+	echo "sudo -u dnsmasq -g dnsmasq dnsmasq -a 127.0.0.1 --no-daemon --log-queries"
+	echo "sudo -u dnscrypt_proxy -g dnscrypt_proxy /usr/sbin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml"
+}
+
+# Main script
+while true; do
+    show_menu
+    case $choice in
+        1) firewall ;;
+        2) firewalled ;;
+        o) off_firewall ;;
+        dns) dns ;;
+        q) clear
+	   break ;;
+        *) echo "Invalid option" ;;
+    esac
+done
